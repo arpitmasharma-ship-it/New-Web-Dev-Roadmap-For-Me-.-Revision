@@ -1,0 +1,2149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DevTrack — MERN Learning Planner</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#f5f7f5;
+    --surface:#ffffff;
+    --surface2:#f8faf8;
+    --border:#e5ebe6;
+    --text:#14231b;
+    --muted:#718078;
+    --green:#16834f;
+    --green2:#20a464;
+    --green-light:#e8f7ef;
+    --shadow:0 10px 35px rgba(18,45,31,.06);
+}
+
+.dark{
+    --bg:#0d1511;
+    --surface:#131d17;
+    --surface2:#17231c;
+    --border:#26352d;
+    --text:#eef7f1;
+    --muted:#8fa096;
+    --green:#32c47a;
+    --green2:#42d88b;
+    --green-light:#153b29;
+    --shadow:0 10px 35px rgba(0,0,0,.2);
+}
+
+body{
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
+
+button,input,textarea,select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    width:245px;
+    background:var(--surface);
+    border-right:1px solid var(--border);
+    padding:22px 15px;
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    z-index:20;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:8px 10px 28px;
+}
+
+.logo-icon{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#087f49,#29b875);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    box-shadow:0 7px 18px rgba(22,131,79,.25);
+}
+
+.logo strong{
+    font-size:18px;
+}
+
+.logo span{
+    display:block;
+    font-size:11px;
+    color:var(--muted);
+    margin-top:1px;
+}
+
+.nav-title{
+    font-size:10px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:var(--muted);
+    padding:0 12px;
+    margin-bottom:8px;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.nav button{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    padding:11px 12px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    text-align:left;
+    transition:.2s;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:var(--green-light);
+    color:var(--green);
+}
+
+.nav-icon{
+    width:19px;
+}
+
+.sidebar-bottom{
+    position:absolute;
+    bottom:20px;
+    left:15px;
+    right:15px;
+}
+
+.theme-btn{
+    width:100%;
+    padding:11px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--surface2);
+    color:var(--text);
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    margin-left:245px;
+    width:calc(100% - 245px);
+    padding:28px 35px 50px;
+}
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:30px;
+}
+
+.breadcrumb{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.breadcrumb strong{
+    color:var(--text);
+}
+
+.top-actions{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.icon-btn{
+    width:40px;
+    height:40px;
+    border:1px solid var(--border);
+    border-radius:11px;
+    background:var(--surface);
+    color:var(--text);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    background:
+        radial-gradient(circle at 90% 10%,rgba(67,211,139,.22),transparent 30%),
+        linear-gradient(135deg,#103d29,#166c46);
+    border-radius:24px;
+    color:white;
+    padding:32px;
+    position:relative;
+    overflow:hidden;
+    margin-bottom:22px;
+}
+
+.hero:after{
+    content:"";
+    position:absolute;
+    width:250px;
+    height:250px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:50%;
+    right:-70px;
+    bottom:-120px;
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:650px;
+}
+
+.hero-label{
+    display:inline-flex;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.15);
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:11px;
+    margin-bottom:15px;
+}
+
+.hero h1{
+    font-size:32px;
+    line-height:1.2;
+    margin-bottom:9px;
+}
+
+.hero p{
+    color:#c9e4d5;
+    font-size:14px;
+    max-width:600px;
+}
+
+.hero-progress{
+    margin-top:25px;
+    max-width:550px;
+}
+
+.hero-progress-top{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+.hero-bar{
+    height:8px;
+    background:rgba(255,255,255,.15);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.hero-fill{
+    height:100%;
+    background:#63e6a2;
+    width:0;
+    border-radius:20px;
+    transition:.4s;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:19px;
+    box-shadow:var(--shadow);
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-icon{
+    width:36px;
+    height:36px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:10px;
+    background:var(--green-light);
+}
+
+.stat-number{
+    font-size:25px;
+    font-weight:750;
+    margin-top:15px;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:2px;
+}
+
+/* =========================
+   TOOLBAR
+========================= */
+
+.section-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:30px 0 15px;
+}
+
+.section-heading h2{
+    font-size:20px;
+}
+
+.section-heading p{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.toolbar{
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.search-wrap{
+    flex:1;
+    position:relative;
+}
+
+.search{
+    width:100%;
+    height:45px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--surface);
+    color:var(--text);
+    padding:0 15px 0 42px;
+    outline:none;
+}
+
+.search:focus{
+    border-color:var(--green);
+    box-shadow:0 0 0 3px var(--green-light);
+}
+
+.search-icon{
+    position:absolute;
+    left:15px;
+    top:12px;
+    color:var(--muted);
+}
+
+.select,
+.action-btn{
+    height:45px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--text);
+    border-radius:12px;
+    padding:0 14px;
+}
+
+.action-btn:hover{
+    border-color:var(--green);
+}
+
+/* =========================
+   PHASE
+========================= */
+
+.phase{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:18px;
+    overflow:hidden;
+    margin-bottom:15px;
+    box-shadow:var(--shadow);
+}
+
+.phase-head{
+    padding:18px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:var(--surface2);
+}
+
+.phase-info{
+    display:flex;
+    gap:13px;
+    align-items:center;
+}
+
+.phase-number{
+    width:38px;
+    height:38px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:var(--green-light);
+    color:var(--green);
+    border-radius:11px;
+    font-size:12px;
+    font-weight:800;
+}
+
+.phase-title{
+    font-weight:700;
+    font-size:15px;
+}
+
+.phase-meta{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:2px;
+}
+
+.phase-percent{
+    font-size:12px;
+    color:var(--green);
+    font-weight:700;
+}
+
+.phase-progress{
+    width:100px;
+    height:5px;
+    background:var(--border);
+    border-radius:10px;
+    margin-top:6px;
+}
+
+.phase-progress-fill{
+    height:100%;
+    background:var(--green);
+    border-radius:10px;
+}
+
+/* =========================
+   TOPIC
+========================= */
+
+.topic{
+    border-top:1px solid var(--border);
+}
+
+.topic-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 20px;
+    transition:.2s;
+}
+
+.topic-row:hover{
+    background:var(--surface2);
+}
+
+.check{
+    width:18px;
+    height:18px;
+    accent-color:var(--green);
+    flex-shrink:0;
+}
+
+.topic-name{
+    flex:1;
+    font-size:14px;
+}
+
+.topic.completed .topic-name{
+    text-decoration:line-through;
+    color:var(--muted);
+}
+
+.topic-status{
+    font-size:10px;
+    color:var(--green);
+    background:var(--green-light);
+    padding:4px 7px;
+    border-radius:6px;
+}
+
+.arrow{
+    border:0;
+    width:30px;
+    height:30px;
+    border-radius:8px;
+    background:transparent;
+    color:var(--muted);
+    transition:.2s;
+}
+
+.arrow:hover{
+    background:var(--green-light);
+    color:var(--green);
+}
+
+/* =========================
+   NOTES
+========================= */
+
+.notes{
+    display:none;
+    padding:4px 20px 20px 50px;
+    background:var(--surface2);
+}
+
+.notes.open{
+    display:block;
+    animation:slideDown .2s ease;
+}
+
+@keyframes slideDown{
+    from{
+        opacity:0;
+        transform:translateY(-5px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.notes-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.note{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:13px;
+    overflow:hidden;
+}
+
+.note-header{
+    padding:11px 13px;
+    font-size:12px;
+    font-weight:700;
+    border-bottom:1px solid var(--border);
+    color:var(--text);
+}
+
+.note-header span{
+    margin-right:5px;
+}
+
+.note textarea{
+    display:block;
+    width:100%;
+    min-height:145px;
+    resize:vertical;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:var(--text);
+    padding:13px;
+    font-size:12px;
+    line-height:1.7;
+}
+
+.note textarea::placeholder{
+    color:#9aa69f;
+}
+
+.save{
+    color:var(--green);
+    font-size:10px;
+    padding-top:7px;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+    text-align:center;
+    padding:60px 20px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:18px;
+}
+
+.empty-icon{
+    font-size:35px;
+    margin-bottom:10px;
+}
+
+.empty p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:11px;
+    margin-top:35px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:1000px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 10px;
+    }
+
+    .logo{
+        justify-content:center;
+        padding:5px 0 25px;
+    }
+
+    .logo-text,
+    .nav-title,
+    .nav button span,
+    .sidebar-bottom{
+        display:none;
+    }
+
+    .nav button{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+        width:calc(100% - 70px);
+        padding:22px;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .notes-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:650px){
+
+    .main{
+        margin-left:0;
+        width:100%;
+        padding:15px;
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    .hero{
+        padding:24px;
+        border-radius:19px;
+    }
+
+    .hero h1{
+        font-size:25px;
+    }
+
+    .stats{
+        gap:9px;
+    }
+
+    .stat{
+        padding:14px;
+    }
+
+    .stat-number{
+        font-size:21px;
+    }
+
+    .toolbar{
+        flex-wrap:wrap;
+    }
+
+    .search-wrap{
+        flex-basis:100%;
+    }
+
+    .phase-head{
+        padding:15px;
+    }
+
+    .notes{
+        padding:5px 12px 15px;
+    }
+
+    .topic-row{
+        padding:12px 14px;
+    }
+
+    .topic-status{
+        display:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">D</div>
+
+        <div class="logo-text">
+            <strong>DevTrack</strong>
+            <span>Learning Planner</span>
+        </div>
+    </div>
+
+    <div class="nav-title">Workspace</div>
+
+    <div class="nav">
+
+        <button class="active">
+            <span class="nav-icon">⌂</span>
+            <span>Overview</span>
+        </button>
+
+        <button onclick="scrollToRoadmap()">
+            <span class="nav-icon">▣</span>
+            <span>Roadmap</span>
+        </button>
+
+        <button onclick="showNotesOnly()">
+            <span class="nav-icon">✎</span>
+            <span>My Notes</span>
+        </button>
+
+        <button onclick="showRemaining()">
+            <span class="nav-icon">◷</span>
+            <span>Continue Learning</span>
+        </button>
+
+    </div>
+
+    <div class="sidebar-bottom">
+
+        <button class="theme-btn" onclick="toggleTheme()">
+            ◐ &nbsp; Theme
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+    <div class="topbar">
+
+        <div class="breadcrumb">
+            Workspace / <strong>MERN Roadmap</strong>
+        </div>
+
+        <div class="top-actions">
+
+            <button
+                class="icon-btn"
+                onclick="toggleTheme()"
+                title="Toggle theme"
+            >
+                ◐
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-label">
+                🚀 MERN → Full-Stack Developer
+            </div>
+
+            <h1>
+                Build your skills.<br>
+                Track your journey.
+            </h1>
+
+            <p>
+                Learn each concept, write your own understanding,
+                save examples and practice solutions — all in one place.
+            </p>
+
+            <div class="hero-progress">
+
+                <div class="hero-progress-top">
+
+                    <span>Your overall progress</span>
+
+                    <strong id="heroPercent">0%</strong>
+
+                </div>
+
+                <div class="hero-bar">
+                    <div
+                        class="hero-fill"
+                        id="heroFill"
+                    ></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+        <div class="stat">
+
+            <div class="stat-top">
+                <span>Completed</span>
+                <div class="stat-icon">✓</div>
+            </div>
+
+            <div
+                class="stat-number"
+                id="completedCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Topics completed
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-top">
+                <span>Remaining</span>
+                <div class="stat-icon">◷</div>
+            </div>
+
+            <div
+                class="stat-number"
+                id="remainingCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Topics to learn
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-top">
+                <span>Notes</span>
+                <div class="stat-icon">✎</div>
+            </div>
+
+            <div
+                class="stat-number"
+                id="notesCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Topics with notes
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-top">
+                <span>Roadmap</span>
+                <div class="stat-icon">⌘</div>
+            </div>
+
+            <div
+                class="stat-number"
+                id="phaseCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Learning phases
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ROADMAP -->
+
+    <div id="roadmapSection">
+
+        <div class="section-heading">
+
+            <div>
+                <h2>Your learning roadmap</h2>
+
+                <p>
+                    Learn → Understand → Practice → Build
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="toolbar">
+
+            <div class="search-wrap">
+
+                <span class="search-icon">⌕</span>
+
+                <input
+                    id="search"
+                    class="search"
+                    placeholder="Search any topic..."
+                >
+
+            </div>
+
+
+            <select
+                id="filter"
+                class="select"
+            >
+                <option value="all">All topics</option>
+                <option value="completed">Completed</option>
+                <option value="remaining">Remaining</option>
+                <option value="notes">With notes</option>
+            </select>
+
+
+            <button
+                class="action-btn"
+                onclick="expandAll()"
+            >
+                Expand
+            </button>
+
+
+            <button
+                class="action-btn"
+                onclick="collapseAll()"
+            >
+                Collapse
+            </button>
+
+        </div>
+
+
+        <div id="roadmap"></div>
+
+    </div>
+
+
+    <footer>
+        DevTrack • Personal MERN Learning System
+    </footer>
+
+</main>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   ROADMAP
+========================================================= */
+
+const roadmap = [
+
+{
+phase:"01",
+title:"JavaScript Foundation",
+topics:[
+"Variables: let / const",
+"Data Types",
+"Operators",
+"if / else",
+"Loops",
+"Functions",
+"Arrays",
+"Objects",
+"Basic DOM"
+]
+},
+
+{
+phase:"02",
+title:"Modern JavaScript",
+topics:[
+"map()",
+"filter()",
+"reduce()",
+"Destructuring",
+"Spread operator",
+"Rest operator",
+"Template literals",
+"Optional chaining",
+"Nullish coalescing",
+"Ternary operator",
+"Callbacks",
+"Higher-order functions",
+"this - Basic",
+"Closures - Basic",
+"Promises",
+"async / await",
+"try / catch",
+"fetch()",
+"JSON",
+"ES Modules",
+"Synchronous vs Asynchronous",
+"Event Loop - Basic",
+"JavaScript problems practice",
+"API fetching practice"
+]
+},
+
+{
+phase:"03",
+title:"React",
+topics:[
+"React setup",
+"Components",
+"JSX",
+"Props",
+"State",
+"Events",
+"Conditional rendering",
+"Lists",
+"Keys",
+"useState",
+"useEffect",
+"useRef",
+"useContext",
+"Custom Hooks",
+"Forms",
+"Form validation",
+"API calls",
+"Loading state",
+"Error state",
+"Empty state",
+"Reusable components",
+"React folder structure",
+"Login page",
+"Register page",
+"Dashboard page",
+"Projects page",
+"Tasks page",
+"Task Details page",
+"Profile page"
+]
+},
+
+{
+phase:"04",
+title:"React Router",
+topics:[
+"BrowserRouter",
+"Routes",
+"Route",
+"Link",
+"NavLink",
+"useNavigate",
+"useParams",
+"Query Parameters",
+"Nested Routes",
+"Protected Routes",
+"404 Page"
+]
+},
+
+{
+phase:"05",
+title:"Tailwind CSS + UI",
+topics:[
+"Responsive design",
+"Flexbox",
+"Grid",
+"Forms",
+"Cards",
+"Modals",
+"Tables",
+"Navbar",
+"Sidebar",
+"Dropdown",
+"Loading Skeleton",
+"Dark Mode",
+"Reusable UI Components",
+"Build SaaS-style UI"
+]
+},
+
+{
+phase:"06",
+title:"Redux Toolkit",
+topics:[
+"Why Redux",
+"Store",
+"Slice",
+"State",
+"Actions",
+"Reducers",
+"Selectors",
+"createSlice",
+"createAsyncThunk",
+"API state",
+"Loading state",
+"Error state",
+"Auth state",
+"User state",
+"Project state",
+"Task state",
+"UI state",
+"Notification state"
+]
+},
+
+{
+phase:"07",
+title:"Node.js",
+topics:[
+"What is Node.js",
+"npm",
+"package.json",
+"Node Modules",
+"Environment Variables",
+"Node File Structure",
+"HTTP Basics",
+"Asynchronous Node.js",
+"Error Handling"
+]
+},
+
+{
+phase:"08",
+title:"Express.js",
+topics:[
+"Express Setup",
+"Routes",
+"Request",
+"Response",
+"Middleware",
+"Controllers",
+"Error Handling",
+"HTTP Status Codes",
+"REST API",
+"Validation",
+"API Structure",
+"CRUD APIs",
+"Task Endpoints"
+]
+},
+
+{
+phase:"09",
+title:"MongoDB + Mongoose",
+topics:[
+"Database Basics",
+"Collections",
+"Documents",
+"CRUD",
+"MongoDB Queries",
+"Mongoose",
+"Schema",
+"Model",
+"References",
+"populate()",
+"Validation",
+"Indexing",
+"User Model",
+"Project Model",
+"Task Model",
+"Notification Model",
+"User → Projects → Tasks"
+]
+},
+
+{
+phase:"10",
+title:"Authentication",
+topics:[
+"Register",
+"Login",
+"Password Hashing",
+"bcrypt",
+"JWT",
+"Access Token",
+"Cookies",
+"HTTP-only Cookies",
+"Authentication Middleware",
+"Logout",
+"Protected APIs",
+"Token Expiration",
+"Authentication Flow"
+]
+},
+
+{
+phase:"11",
+title:"Authorization / RBAC",
+topics:[
+"Roles",
+"ADMIN",
+"MANAGER",
+"MEMBER",
+"Permissions",
+"Backend RBAC",
+"Role-based API protection"
+]
+},
+
+{
+phase:"12",
+title:"Connect Full MERN",
+topics:[
+"React → Redux → API",
+"API → Express",
+"Express → Node",
+"Node → MongoDB",
+"Login",
+"Register",
+"Dashboard",
+"Projects",
+"Tasks",
+"User Management",
+"Roles",
+"Search",
+"Filters",
+"Pagination",
+"Error Handling",
+"Complete Full-Stack Project"
+]
+},
+
+{
+phase:"13",
+title:"Advanced Backend",
+topics:[
+"Advanced Middleware",
+"API Validation",
+"Central Error Handling",
+"Pagination",
+"Filtering",
+"Sorting",
+"Search",
+"File Uploads",
+"Rate Limiting",
+"API Security",
+"CORS",
+"Helmet",
+"Environment Variables"
+]
+},
+
+{
+phase:"14",
+title:"SQL + PostgreSQL",
+topics:[
+"SQL Basics",
+"Tables",
+"Primary Key",
+"Foreign Key",
+"CRUD",
+"JOIN",
+"GROUP BY",
+"Indexes",
+"Transactions",
+"PostgreSQL"
+]
+},
+
+{
+phase:"15",
+title:"Real-Time Applications",
+topics:[
+"WebSockets",
+"Socket.IO",
+"Real-time Events",
+"Real-time Notifications",
+"Real-time Task Updates"
+]
+},
+
+{
+phase:"16",
+title:"Redis",
+topics:[
+"What is Redis",
+"Caching",
+"Sessions",
+"TTL",
+"Basic Queues",
+"Cache API responses",
+"Notification queues",
+"Rate limiting with Redis"
+]
+},
+
+{
+phase:"17",
+title:"Testing",
+topics:[
+"React Testing Basics",
+"API Testing",
+"Jest",
+"Vitest",
+"Supertest",
+"Test Register",
+"Test Login",
+"Test Create",
+"Test Update",
+"Test Delete",
+"Test Authorization"
+]
+},
+
+{
+phase:"18",
+title:"Security",
+topics:[
+"Password Hashing",
+"JWT Security",
+"HTTP-only Cookies",
+"CORS",
+"XSS",
+"CSRF - Basic",
+"NoSQL Injection",
+"Rate Limiting",
+"Input Validation",
+"Environment Variables",
+"Secure Headers"
+]
+},
+
+{
+phase:"19",
+title:"Git + GitHub",
+topics:[
+"Git Basics",
+"git init",
+"git add",
+"git commit",
+"git push",
+"git pull",
+"Branches",
+"Pull Requests",
+".gitignore",
+"README",
+"Good Commit Messages"
+]
+},
+
+{
+phase:"20",
+title:"Deployment",
+topics:[
+"Frontend Hosting",
+"Backend Cloud Server",
+"MongoDB Atlas",
+"PostgreSQL Cloud",
+"Environment Variables",
+"Production Build",
+"CORS in Production",
+"Domain",
+"Production API URL",
+"Logs",
+"Monitoring"
+]
+},
+
+{
+phase:"21",
+title:"Docker",
+topics:[
+"Docker Basics",
+"Dockerfile",
+"Docker Image",
+"Docker Container",
+"Docker Compose",
+"Docker Environment Variables",
+"Containerize Frontend",
+"Containerize Backend"
+]
+},
+
+{
+phase:"22",
+title:"System Design Basics",
+topics:[
+"Client → Load Balancer → Backend → Database",
+"Scalability",
+"Caching",
+"Database Indexing",
+"Horizontal Scaling",
+"Vertical Scaling",
+"REST Architecture",
+"WebSockets",
+"Queues",
+"CDN",
+"Load Balancing",
+"CAP Basics",
+"Database Choices"
+]
+}
+
+];
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+const STORAGE="devtrackPlanner";
+
+let data=JSON.parse(
+    localStorage.getItem(STORAGE)
+)||{
+    completed:{},
+    notes:{}
+};
+
+
+/* Previous completed topics */
+
+[
+"1-map()",
+"1-filter()",
+"1-reduce()",
+"1-Destructuring",
+"1-Spread operator"
+].forEach(id=>{
+    if(data.completed[id]===undefined){
+        data.completed[id]=true;
+    }
+});
+
+
+function save(){
+    localStorage.setItem(
+        STORAGE,
+        JSON.stringify(data)
+    );
+}
+
+
+/* =========================================================
+   ID
+========================================================= */
+
+function idFor(p,t){
+    return `${p}-${t}`;
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHTML(str){
+
+    if(!str) return "";
+
+    return String(str)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+    const container=
+        document.getElementById("roadmap");
+
+    const search=
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+    const filter=
+        document.getElementById("filter").value;
+
+    container.innerHTML="";
+
+    let found=false;
+
+
+    roadmap.forEach((phase,pIndex)=>{
+
+        const topics=phase.topics.filter(topic=>{
+
+            const id=idFor(pIndex,topic);
+
+            const completed=!!data.completed[id];
+
+            const note=data.notes[id];
+
+            const hasNotes=
+                note &&
+                (
+                    note.understanding ||
+                    note.example ||
+                    note.solution
+                );
+
+
+            const searchMatch=
+                topic.toLowerCase().includes(search) ||
+                phase.title.toLowerCase().includes(search);
+
+
+            if(!searchMatch) return false;
+
+            if(filter==="completed")
+                return completed;
+
+            if(filter==="remaining")
+                return !completed;
+
+            if(filter==="notes")
+                return hasNotes;
+
+            return true;
+
+        });
+
+
+        if(!topics.length) return;
+
+        found=true;
+
+
+        const completedTotal=
+            phase.topics.filter(t=>
+                data.completed[idFor(pIndex,t)]
+            ).length;
+
+
+        const percent=
+            Math.round(
+                completedTotal /
+                phase.topics.length *
+                100
+            );
+
+
+        const phaseEl=
+            document.createElement("section");
+
+        phaseEl.className="phase";
+
+
+        phaseEl.innerHTML=`
+
+            <div class="phase-head">
+
+                <div class="phase-info">
+
+                    <div class="phase-number">
+                        ${phase.phase}
+                    </div>
+
+                    <div>
+
+                        <div class="phase-title">
+                            ${phase.title}
+                        </div>
+
+                        <div class="phase-meta">
+                            ${completedTotal}
+                            of
+                            ${phase.topics.length}
+                            topics completed
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="phase-percent">
+                        ${percent}%
+                    </div>
+
+                    <div class="phase-progress">
+                        <div
+                            class="phase-progress-fill"
+                            style="width:${percent}%"
+                        ></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="topics"></div>
+        `;
+
+
+        const topicsEl=
+            phaseEl.querySelector(".topics");
+
+
+        topics.forEach(topic=>{
+
+            const id=idFor(pIndex,topic);
+
+            const completed=
+                !!data.completed[id];
+
+            const note=
+                data.notes[id] || {
+                    understanding:"",
+                    example:"",
+                    solution:""
+                };
+
+
+            const topicEl=
+                document.createElement("div");
+
+            topicEl.className=
+                "topic"+
+                (completed ? " completed":"");
+
+
+            topicEl.innerHTML=`
+
+                <div class="topic-row">
+
+                    <input
+                        class="check"
+                        type="checkbox"
+                        ${completed ? "checked":""}
+                    >
+
+                    <div class="topic-name">
+                        ${escapeHTML(topic)}
+                    </div>
+
+                    ${
+                        completed
+                        ?
+                        `<span class="topic-status">
+                            Completed
+                        </span>`
+                        :
+                        ""
+                    }
+
+                    <button class="arrow">
+                        ▼
+                    </button>
+
+                </div>
+
+
+                <div class="notes">
+
+                    <div class="notes-grid">
+
+                        <div class="note">
+
+                            <div class="note-header">
+                                <span>🧠</span>
+                                My Understanding
+                            </div>
+
+                            <textarea
+                                class="understanding"
+                                placeholder="Explain this concept in your own words..."
+                            >${escapeHTML(note.understanding)}</textarea>
+
+                        </div>
+
+
+                        <div class="note">
+
+                            <div class="note-header">
+                                <span>💻</span>
+                                Example / Code
+                            </div>
+
+                            <textarea
+                                class="example"
+                                placeholder="Write an example, code snippet or real-world use..."
+                            >${escapeHTML(note.example)}</textarea>
+
+                        </div>
+
+
+                        <div class="note">
+
+                            <div class="note-header">
+                                <span>📝</span>
+                                Solution / Practice
+                            </div>
+
+                            <textarea
+                                class="solution"
+                                placeholder="Write your solution or what you learned from practice..."
+                            >${escapeHTML(note.solution)}</textarea>
+
+                        </div>
+
+                    </div>
+
+                    <div class="save"></div>
+
+                </div>
+            `;
+
+
+            const check=
+                topicEl.querySelector(".check");
+
+            const arrow=
+                topicEl.querySelector(".arrow");
+
+            const notes=
+                topicEl.querySelector(".notes");
+
+            const understanding=
+                topicEl.querySelector(".understanding");
+
+            const example=
+                topicEl.querySelector(".example");
+
+            const solution=
+                topicEl.querySelector(".solution");
+
+            const saveText=
+                topicEl.querySelector(".save");
+
+
+            check.addEventListener("change",()=>{
+
+                data.completed[id]=check.checked;
+
+                save();
+
+                render();
+                updateStats();
+
+            });
+
+
+            arrow.addEventListener("click",()=>{
+
+                const open=
+                    notes.classList.toggle("open");
+
+                arrow.textContent=
+                    open ? "▲":"▼";
+
+            });
+
+
+            function saveNotes(){
+
+                if(!data.notes[id]){
+
+                    data.notes[id]={
+                        understanding:"",
+                        example:"",
+                        solution:""
+                    };
+
+                }
+
+
+                data.notes[id].understanding=
+                    understanding.value;
+
+                data.notes[id].example=
+                    example.value;
+
+                data.notes[id].solution=
+                    solution.value;
+
+
+                save();
+
+                saveText.textContent=
+                    "✓ Saved";
+
+                clearTimeout(
+                    saveNotes.timeout
+                );
+
+                saveNotes.timeout=
+                    setTimeout(()=>{
+                        saveText.textContent="";
+                    },1200);
+
+            }
+
+
+            understanding.addEventListener(
+                "input",
+                saveNotes
+            );
+
+            example.addEventListener(
+                "input",
+                saveNotes
+            );
+
+            solution.addEventListener(
+                "input",
+                saveNotes
+            );
+
+
+            topicsEl.appendChild(topicEl);
+
+        });
+
+
+        container.appendChild(phaseEl);
+
+    });
+
+
+    if(!found){
+
+        container.innerHTML=`
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🔎
+                </div>
+
+                <h3>
+                    Nothing found
+                </h3>
+
+                <p>
+                    Try another search or filter.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+    let total=0;
+    let completed=0;
+    let notes=0;
+
+
+    roadmap.forEach((phase,pIndex)=>{
+
+        phase.topics.forEach(topic=>{
+
+            total++;
+
+            const id=idFor(pIndex,topic);
+
+            if(data.completed[id])
+                completed++;
+
+
+            const n=data.notes[id];
+
+            if(
+                n &&
+                (
+                    n.understanding ||
+                    n.example ||
+                    n.solution
+                )
+            ){
+                notes++;
+            }
+
+        });
+
+    });
+
+
+    const percent=
+        Math.round(
+            completed/total*100
+        );
+
+
+    document.getElementById(
+        "completedCount"
+    ).textContent=completed;
+
+
+    document.getElementById(
+        "remainingCount"
+    ).textContent=total-completed;
+
+
+    document.getElementById(
+        "notesCount"
+    ).textContent=notes;
+
+
+    document.getElementById(
+        "phaseCount"
+    ).textContent=roadmap.length;
+
+
+    document.getElementById(
+        "heroPercent"
+    ).textContent=percent+"%";
+
+
+    document.getElementById(
+        "heroFill"
+    ).style.width=percent+"%";
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+document
+.getElementById("search")
+.addEventListener(
+    "input",
+    render
+);
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+document
+.getElementById("filter")
+.addEventListener(
+    "change",
+    render
+);
+
+
+/* =========================================================
+   EXPAND / COLLAPSE
+========================================================= */
+
+function expandAll(){
+
+    document
+    .querySelectorAll(".notes")
+    .forEach(x=>x.classList.add("open"));
+
+    document
+    .querySelectorAll(".arrow")
+    .forEach(x=>x.textContent="▲");
+
+}
+
+
+function collapseAll(){
+
+    document
+    .querySelectorAll(".notes")
+    .forEach(x=>x.classList.remove("open"));
+
+    document
+    .querySelectorAll(".arrow")
+    .forEach(x=>x.textContent="▼");
+
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+function scrollToRoadmap(){
+
+    document
+    .getElementById("roadmapSection")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+function showRemaining(){
+
+    document
+    .getElementById("filter")
+    .value="remaining";
+
+    render();
+
+    scrollToRoadmap();
+
+}
+
+
+function showNotesOnly(){
+
+    document
+    .getElementById("filter")
+    .value="notes";
+
+    render();
+
+    scrollToRoadmap();
+
+}
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+        "devtrackTheme",
+        document.body.classList.contains("dark")
+            ? "dark"
+            : "light"
+    );
+
+}
+
+
+if(
+    localStorage.getItem("devtrackTheme")
+    ==="dark"
+){
+    document.body.classList.add("dark");
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+render();
+updateStats();
+
+</script>
+
+</body>
+</html>
